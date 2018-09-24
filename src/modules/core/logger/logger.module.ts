@@ -5,14 +5,7 @@ import { loggerProviders } from './logger.providers';
 
 @Global()
 @Module({
-  providers: [
-    ...loggerProviders,
-    LoggerService,
-    LoggerExceptionInterceptor,
-  ],
-  exports: [
-    LoggerService,
-    LoggerExceptionInterceptor,
-  ],
+  providers: [...loggerProviders, LoggerService, LoggerExceptionInterceptor],
+  exports: [LoggerService, LoggerExceptionInterceptor],
 })
 export class LoggerModule {}

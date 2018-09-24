@@ -1,11 +1,16 @@
-import { Inject, Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  LoggerService as NestLoggerService,
+} from '@nestjs/common';
 import { LOGGER_LEVEL, LOGGER_WINSTON_PROVIDER } from './logger.constants';
 import { Logger } from 'winston';
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
-
-  constructor(@Inject(LOGGER_WINSTON_PROVIDER) private readonly winston: Logger) {}
+  constructor(
+    @Inject(LOGGER_WINSTON_PROVIDER) private readonly winston: Logger,
+  ) {}
 
   public log(level: LOGGER_LEVEL, msg: string, ...meta): void {
     this.winston.log(level, msg, ...meta);

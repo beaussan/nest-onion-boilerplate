@@ -1,6 +1,9 @@
 import { plainToClass } from 'class-transformer';
 import { sanitize } from 'class-sanitizer';
-import { validate as classValidate, validateSync as classValidateSync } from 'class-validator';
+import {
+  validate as classValidate,
+  validateSync as classValidateSync,
+} from 'class-validator';
 import { ValidationException } from './validation.exception';
 import { ClassType } from 'class-transformer/ClassTransformer';
 
@@ -10,8 +13,10 @@ import { ClassType } from 'class-transformer/ClassTransformer';
  * @param {object} value
  * @return {Promise<T>}
  */
-export const validate = async <T>(validation: ClassType<T>, value: object): Promise<T> => {
-
+export const validate = async <T>(
+  validation: ClassType<T>,
+  value: object,
+): Promise<T> => {
   // Transform to class
   const entity = plainToClass<T, object>(validation, value);
 
@@ -19,7 +24,10 @@ export const validate = async <T>(validation: ClassType<T>, value: object): Prom
   sanitize(entity);
 
   // Validate
-  const errors = await classValidate(entity, { skipMissingProperties: true, whitelist: true });
+  const errors = await classValidate(entity, {
+    skipMissingProperties: true,
+    whitelist: true,
+  });
   if (errors.length > 0) {
     throw new ValidationException(errors);
   }
@@ -34,7 +42,6 @@ export const validate = async <T>(validation: ClassType<T>, value: object): Prom
  * @return {T}
  */
 export const validateSync = <T>(validation: ClassType<T>, value: object): T => {
-
   // Transform to class
   const entity = plainToClass<T, object>(validation, value);
 
@@ -42,7 +49,10 @@ export const validateSync = <T>(validation: ClassType<T>, value: object): T => {
   sanitize(entity);
 
   // Validate
-  const errors = classValidateSync(entity, { skipMissingProperties: true, whitelist: true });
+  const errors = classValidateSync(entity, {
+    skipMissingProperties: true,
+    whitelist: true,
+  });
   if (errors.length > 0) throw new ValidationException(errors);
 
   return entity;

@@ -20,9 +20,11 @@ async function bootstrap() {
   app.enableCors();
 
   // Interceptors
-  const loggerInterceptor = app.select(LoggerModule).get(LoggerExceptionInterceptor);
+  const loggerInterceptor = app
+    .select(LoggerModule)
+    .get(LoggerExceptionInterceptor);
   app.useGlobalInterceptors(
-    loggerInterceptor,          // Log exceptions
+    loggerInterceptor, // Log exceptions
   );
 
   // Validators
@@ -40,7 +42,9 @@ async function bootstrap() {
   SwaggerModule.setup('/docs', app, document);
 
   const server = await app.listen(parseInt(process.env.API_PORT || '3000', 10));
-  app.get(LoggerService).info(`Application is listening on port ${process.env.API_PORT || 3000}.`);
+  app
+    .get(LoggerService)
+    .info(`Application is listening on port ${process.env.API_PORT || 3000}.`);
   return server;
 }
 bootstrap();

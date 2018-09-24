@@ -3,11 +3,9 @@ import * as argon2 from 'argon2';
 
 @Injectable()
 export class CryptoService {
-
   private readonly type = argon2.argon2id;
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Compare hash
@@ -27,5 +25,4 @@ export class CryptoService {
   public async hash(plain: string): Promise<string> {
     return await argon2.hash(plain, { type: this.type });
   }
-
 }

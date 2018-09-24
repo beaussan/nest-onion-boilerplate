@@ -7,9 +7,7 @@ export const loggerProviders = [
     useFactory: () => {
       const LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
 
-      const winstonTransports = [
-        new transports.Console({}),
-      ];
+      const winstonTransports = [new transports.Console({})];
 
       return createLogger({
         level: LOG_LEVEL,
