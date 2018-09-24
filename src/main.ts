@@ -6,6 +6,7 @@ import { LoggerExceptionInterceptor } from './modules/core/logger/logger-excepti
 import { LoggerModule } from './modules/core/logger/logger.module';
 import { ValidatorPipe } from './modules/core/validation/validator.pipe';
 import { LoggerService } from './modules/core/logger/logger.service';
+import { RolesGuard } from './guards/roles.guard';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -26,6 +27,10 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     loggerInterceptor, // Log exceptions
   );
+
+  // Guards
+  const rolesGuard = app.select(AppModule).get(RolesGuard);
+  app.useGlobalGuards(rolesGuard);
 
   // Validators
   app.useGlobalPipes(
