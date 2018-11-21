@@ -74,7 +74,7 @@ export class {{ properCase name }}Controller {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() {{ camelCase name }}Dto: {{ properCase name }}Dto,
   ): Promise<{{ properCase name }}> {
-    return this.{{ camelCase name }}Service.updateName(id, {{ camelCase name }}Dto);
+    return this.{{ camelCase name }}Service.update(id, {{ camelCase name }}Dto);
   }
   
   @Delete(':id')

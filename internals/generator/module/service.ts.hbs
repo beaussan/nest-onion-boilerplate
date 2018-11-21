@@ -24,7 +24,7 @@ export class {{ properCase name }}Service {
   }
 
   async saveNew(app: {{ properCase name }}Dto): Promise<{{ properCase name }}> {
-    const {{ camelCase name }}New = new {{ properCase name }}();
+    let {{ camelCase name }}New = new {{ properCase name }}();
 
     // Complete with the mappings
 
@@ -34,14 +34,21 @@ export class {{ properCase name }}Service {
   }
 
   async update(id: number, body: {{ properCase name }}Dto): Promise<{{ properCase name }}> {
-    const {{ camelCase name }}Found = (await this.{{ camelCase name }}Repository.findOneById(id)).orElseThrow(
+    let {{ camelCase name }}Found = (await this.{{ camelCase name }}Repository.findOneById(id)).orElseThrow(
       () => new NotFoundException(),
     );
 
     // Complete with the mappings
 
-    await this.{{ camelCase name }}Repository.save({{ camelCase name }}Found);
+    {{ camelCase name }}Found = await this.{{ camelCase name }}Repository.save({{ camelCase name }}Found);
 
     return {{ camelCase name }}Found;
+  }
+
+  async deleteById(id: number): Promise<void> {
+    const {{ camelCase name }}Found = (await this.{{ camelCase name }}Repository.findOneById(
+      id,
+    )).orElseThrow(() => new NotFoundException());
+    await this.{{ camelCase name }}Repository.remove({{ camelCase name }}Found);
   }
 }

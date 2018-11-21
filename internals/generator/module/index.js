@@ -101,43 +101,50 @@ module.exports = {
     const actions = [
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/module.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.module.ts',
         templateFile: './module/module.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/constants.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.constants.ts',
         templateFile: './module/constants.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/controller.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.controller.ts',
         templateFile: './module/controller.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/dto.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.dto.ts',
         templateFile: './module/dto.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/entity.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.entity.ts',
         templateFile: './module/entity.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/repository.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.repository.ts',
         templateFile: './module/repository.ts.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/module/{{properCase name}}/service.ts',
+        path:
+          '../../src/modules/{{ kebabCase name }}/{{ kebabCase name }}.service.ts',
         templateFile: './module/service.ts.hbs',
         abortOnFail: true,
       },
