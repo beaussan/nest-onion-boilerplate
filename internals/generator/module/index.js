@@ -26,10 +26,10 @@ module.exports = {
       type: 'input',
       name: 'name',
       message: 'What is the name of the module ?',
-      default: 'Button',
+      default: 'User',
       validate: value => {
         if (/.+/.test(value)) {
-          return componentExists(value)
+          return moduleExists(value)
             ? 'A component or container with this name already exists'
             : true;
         }
@@ -144,27 +144,27 @@ module.exports = {
       {
         type: 'modify',
         path: '../../src/app.module.ts',
-        pattern: /(\/\/ needle-import-modules)/g,
+        pattern: /(\/\/ needle-module-import)/g,
         template:
           "import { {{properCase name}}Module } from './modules/{{ kebabCase name }}/{{ kebabCase name }}.module';\n$1",
       },
       {
         type: 'modify',
         path: '../../src/app.module.ts',
-        pattern: /(\/\/ needle-import-modules-import)/g,
+        pattern: /(\/\/ needle-module-includes)/g,
         template: '{{properCase name}}Module,\n$1',
       },
       {
         type: 'modify',
-        path: '../../src/app.module.ts',
-        pattern: /(\/\/ needle-import-modules)/g,
+        path: '../../src/app.routes.ts',
+        pattern: /(\/\/ needle-module-import)/g,
         template:
           "import { {{properCase name}}Module } from './modules/{{ kebabCase name }}/{{ kebabCase name }}.module';\n$1",
       },
       {
         type: 'modify',
-        path: '../../src/app.module.ts',
-        pattern: /(\/\/ needle-import-module-routes)/g,
+        path: '../../src/app.routes.ts',
+        pattern: /(\/\/ needle-modules-routes)/g,
         templateFile: './module/routing.ts.hbs',
       },
     ];

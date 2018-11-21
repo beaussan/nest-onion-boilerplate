@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate": "plop --plopfile internals/generators/index.js",
+    "generate": "plop --plopfile internals/generator/index.js",
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {

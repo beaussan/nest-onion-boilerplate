@@ -1,7 +1,7 @@
 import { Routes } from 'nest-router';
 
-// needle-import-modules
+// needle-module-import
 
 export const appRoutes: Routes = [
-  // needle-import-module-routes
+  // needle-modules-routes
 ];
