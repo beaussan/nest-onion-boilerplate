@@ -9,6 +9,7 @@ import { LoggerService } from './modules/core/logger/logger.service';
 import { RolesGuard } from './guards/roles.guard';
 import { ConfigService } from './modules/core/config/config.service';
 import { ConfigModule } from './modules/core/config/config.module';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -28,6 +29,7 @@ async function bootstrap() {
     .get(LoggerExceptionInterceptor);
   app.useGlobalInterceptors(
     loggerInterceptor, // Log exceptions
+    new TransformInterceptor(),
   );
 
   const connfigService = app.select(ConfigModule).get(ConfigService);

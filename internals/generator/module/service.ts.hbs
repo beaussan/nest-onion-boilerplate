@@ -23,7 +23,7 @@ export class {{ properCase name }}Service {
   return this.{{ camelCase name }}Repository.findOneById(id);
   }
 
-  async saveNew(app: {{ properCase name }}Dto): Promise<{{ properCase name }}> {
+  async saveNew(body: {{ properCase name }}Dto): Promise<{{ properCase name }}> {
     let {{ camelCase name }}New = new {{ properCase name }}();
 
     // Complete with the mappings

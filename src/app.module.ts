@@ -6,14 +6,31 @@ import { RouterModule } from 'nest-router';
 import { appRoutes } from './app.routes';
 import { ConfigModule } from './modules/core/config/config.module';
 import { RolesGuard } from './guards/roles.guard';
-import { DbModule } from './modules/core/db/db.module';
+import { UserModule } from './modules/user/user.module';
+import { ConfigService } from './modules/core/config/config.service';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+
 // needle-module-import
 
 @Module({
   imports: [
     ConfigModule, // Global
-    DbModule, // Global
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<TypeOrmModuleOptions> => ({
+        type: 'postgres',
+        url: configService.databaseUrl,
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+        logging: configService.isLoggingDb ? 'all' : false,
+      }),
+      inject: [ConfigService],
+    }),
     LoggerModule, // Global
+    RouterModule.forRoutes(appRoutes),
+    UserModule,
     // needle-module-includes
   ],
   controllers: [AppController],
