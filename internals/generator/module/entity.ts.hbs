@@ -1,0 +1,9 @@
+import { DbAuditModel } from '../../utils/dbmodel.model';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { ApiModelProperty } from '@nestjs/swagger';
+
+
+@Entity()
+export class {{ properCase name }} extends DbAuditModel {
+
+}

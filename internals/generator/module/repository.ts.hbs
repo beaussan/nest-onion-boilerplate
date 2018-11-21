@@ -1,0 +1,12 @@
+import { EntityRepository, Repository } from 'typeorm';
+import { {{ properCase name }} } from './{{ kebabCase name }}.entity';
+import Optional from 'typescript-optional';
+
+@EntityRepository({{ properCase name }})
+export class{{ properCase name }}Repository extends Repository<{{ properCase name }}> {
+  async findOneById(id: number): Promise<Optional<{{ properCase name }}>> {
+    return Optional.ofNullable(
+      await this.findOne(id, {}),
+    );
+  }
+}
