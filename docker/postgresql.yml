@@ -1,0 +1,11 @@
+version: '2'
+services:
+  ognion-boilerplate-postgresql:
+    image: postgres:9.6.5
+    # volumes:
+    #     - ~/volumes/dashy/postgresql/:/var/lib/postgresql/data/
+    environment:
+    - POSTGRES_USER=onionBoilerplate
+    - POSTGRES_PASSWORD=someNotSecurePassword
+    ports:
+    - 5432:5432

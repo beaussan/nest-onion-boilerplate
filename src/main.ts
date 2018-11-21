@@ -7,6 +7,8 @@ import { LoggerModule } from './modules/core/logger/logger.module';
 import { ValidatorPipe } from './modules/core/validation/validator.pipe';
 import { LoggerService } from './modules/core/logger/logger.service';
 import { RolesGuard } from './guards/roles.guard';
+import { ConfigService } from './modules/core/config/config.service';
+import { ConfigModule } from './modules/core/config/config.module';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -28,6 +30,8 @@ async function bootstrap() {
     loggerInterceptor, // Log exceptions
   );
 
+  const connfigService = app.select(ConfigModule).get(ConfigService);
+
   // Guards
   const rolesGuard = app.select(AppModule).get(RolesGuard);
   app.useGlobalGuards(rolesGuard);
@@ -46,10 +50,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/docs', app, document);
 
-  const server = await app.listen(parseInt(process.env.API_PORT || '3000', 10));
+  const server = await app.listen(connfigService.port);
   app
     .get(LoggerService)
-    .info(`Application is listening on port ${process.env.API_PORT || 3000}.`);
+    .info(`Application is listening on port ${connfigService.port}.`);
   return server;
 }
 bootstrap();
