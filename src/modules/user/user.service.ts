@@ -1,9 +1,19 @@
 import { User } from './user.entity';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 // import {  } from './user.constants';
-import { UserDto } from './user.dto';
+import {
+  UserDtoRegister,
+  UserDtoUpdateInfo,
+  UserDtoUpdatePassword,
+} from './user.dto';
 import Optional from 'typescript-optional';
 import { CryptoService } from '../core/crypto/crypto.service';
 
@@ -23,24 +33,60 @@ export class UserService {
     return this.userRepository.findOneById(id);
   }
 
-  async saveNew(app: UserDto): Promise<User> {
+  async getOnWithEmail(email: string): Promise<Optional<User>> {
+    return await this.userRepository.findOneWithEmail(email);
+  }
+
+  async doPasswordMatch(user: User, password: string): Promise<boolean> {
+    return this.cryptoService.compare(password, user.password);
+  }
+
+  async saveNew(userRegister: UserDtoRegister): Promise<User> {
+    if (
+      await this.userRepository.hasUserWithMatchingEmail(
+        userRegister.email.toLowerCase(),
+      )
+    ) {
+      throw new ConflictException('Email already taken');
+    }
+
     let userNew = new User();
 
-    userNew.password = await this.cryptoService.hash(app.password);
-    userNew.email = app.email;
+    userNew.password = await this.cryptoService.hash(userRegister.password);
+    userNew.email = userRegister.email.toLowerCase();
 
     userNew = await this.userRepository.save(userNew);
 
     return userNew;
   }
 
-  async update(id: number, body: UserDto): Promise<User> {
+  async update(id: number, body: UserDtoUpdateInfo): Promise<User> {
     let userFound = (await this.userRepository.findOneById(id)).orElseThrow(
       () => new NotFoundException(),
     );
 
-    userFound.password = await this.cryptoService.hash(body.password);
-    userFound.email = body.email;
+    userFound.firstName = body.firstName;
+    userFound.lastName = body.lastName;
+
+    userFound = await this.userRepository.save(userFound);
+
+    return userFound;
+  }
+
+  async updatePassword(id: number, body: UserDtoUpdatePassword): Promise<User> {
+    let userFound = (await this.userRepository.findOneById(id)).orElseThrow(
+      () => new NotFoundException(),
+    );
+
+    if (!this.doPasswordMatch(userFound, body.oldPassword)) {
+      throw new BadRequestException('Old password do not match');
+    }
+
+    if (body.newPassword !== body.newPasswordBis) {
+      throw new BadRequestException('New passwords are not the same');
+    }
+
+    userFound.password = await this.cryptoService.hash(body.newPassword);
 
     userFound = await this.userRepository.save(userFound);
 

@@ -18,7 +18,11 @@ import {
   ApiResponse,
   ApiUseTags,
 } from '@nestjs/swagger';
-import { UserDto } from './user.dto';
+import {
+  UserDtoRegister,
+  UserDtoUpdateInfo,
+  UserDtoUpdatePassword,
+} from './user.dto';
 
 @ApiUseTags('User')
 @Controller()
@@ -43,7 +47,7 @@ export class UserController {
     description: 'The User has been created.',
     type: User,
   })
-  saveNew(@Body() userDto: UserDto): Promise<User> {
+  saveNew(@Body() userDto: UserDtoRegister): Promise<User> {
     return this.userService.saveNew(userDto);
   }
 
@@ -69,9 +73,23 @@ export class UserController {
   @ApiResponse({ status: 404, description: 'Not found.' })
   async updateOne(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() userDto: UserDto,
+    @Body() userDto: UserDtoUpdateInfo,
   ): Promise<User> {
     return this.userService.update(id, userDto);
+  }
+
+  @Put(':id/password')
+  @ApiResponse({
+    status: 200,
+    description: 'The updated User with the matching id',
+    type: User,
+  })
+  @ApiResponse({ status: 404, description: 'Not found.' })
+  async updateOnePassword(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() userDto: UserDtoUpdatePassword,
+  ): Promise<User> {
+    return this.userService.updatePassword(id, userDto);
   }
 
   @Delete(':id')

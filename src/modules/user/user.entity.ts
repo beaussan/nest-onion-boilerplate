@@ -6,7 +6,16 @@ import { Exclude } from 'class-transformer';
 @Entity()
 export class User extends DbAuditModel {
   @Column()
+  @ApiModelProperty()
   email: string;
+
+  @Column()
+  @ApiModelProperty()
+  firstName: string;
+
+  @Column()
+  @ApiModelProperty()
+  lastName: string;
 
   @Column()
   @Exclude()
