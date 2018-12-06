@@ -1,4 +1,4 @@
-import { Roles } from './roles.entity';
+import { Role } from './roles.entity';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RolesRepository } from './roles.repository';
@@ -11,18 +11,30 @@ export class RolesService {
   constructor(
     @InjectRepository(RolesRepository)
     private readonly rolesRepository: RolesRepository,
-  ) {}
+  ) {
+    this.init();
+  }
 
-  async getAll(): Promise<Roles[]> {
+  async init(): Promise<void> {
+    for (const role in [USER_ROLE, ADMIN_ROLE]) {
+      if ((await this.rolesRepository.findRoleByName(role)).isEmpty) {
+        const roleDb = new Role();
+        roleDb.name = role;
+        await this.rolesRepository.save(roleDb);
+      }
+    }
+  }
+
+  async getAll(): Promise<Role[]> {
     return this.rolesRepository.find({});
   }
 
-  async getOneById(id: number): Promise<Optional<Roles>> {
+  async getOneById(id: number): Promise<Optional<Role>> {
     return this.rolesRepository.findOneById(id);
   }
 
-  async saveNew(body: RolesDto): Promise<Roles> {
-    let rolesNew = new Roles();
+  async saveNew(body: RolesDto): Promise<Role> {
+    let rolesNew = new Role();
 
     // Complete with the mappings
 
@@ -31,7 +43,7 @@ export class RolesService {
     return rolesNew;
   }
 
-  async update(id: number, body: RolesDto): Promise<Roles> {
+  async update(id: number, body: RolesDto): Promise<Role> {
     let rolesFound = (await this.rolesRepository.findOneById(id)).orElseThrow(
       () => new NotFoundException(),
     );

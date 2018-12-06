@@ -15,9 +15,11 @@ export class UserDtoRegister {
   email: string;
 
   @IsString()
+  @ApiModelProperty({ example: 'foo' })
   firstName: string;
 
   @IsString()
+  @ApiModelProperty({ example: 'bar' })
   lastName: string;
 
   @IsString()

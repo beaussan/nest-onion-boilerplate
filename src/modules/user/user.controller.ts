@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -23,10 +24,14 @@ import {
   UserDtoUpdateInfo,
   UserDtoUpdatePassword,
 } from './user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from '../../decorators/roles.decorator';
+import { ADMIN_ROLE } from '../roles/roles.constants';
 
 @ApiUseTags('User')
 @Controller()
-// @ApiBearerAuth()
+@ApiBearerAuth()
+@UseGuards(AuthGuard())
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -37,6 +42,7 @@ export class UserController {
     type: User,
     isArray: true,
   })
+  @Roles(ADMIN_ROLE)
   getAll(): Promise<User[]> {
     return this.userService.getAll();
   }
@@ -47,6 +53,7 @@ export class UserController {
     description: 'The User has been created.',
     type: User,
   })
+  @Roles(ADMIN_ROLE)
   saveNew(@Body() userDto: UserDtoRegister): Promise<User> {
     return this.userService.saveNew(userDto);
   }

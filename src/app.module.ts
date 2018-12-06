@@ -11,6 +11,7 @@ import { ConfigService } from './modules/core/config/config.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { RolesModule } from './modules/roles/roles.module';
+import { AuthModule } from './modules/core/auth/auth.module';
 // needle-module-import
 
 @Module({
@@ -31,6 +32,7 @@ import { RolesModule } from './modules/roles/roles.module';
     }),
     LoggerModule, // Global
     RouterModule.forRoutes(appRoutes),
+    AuthModule,
     UserModule,
     RolesModule,
     // needle-module-includes

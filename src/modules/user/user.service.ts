@@ -54,6 +54,8 @@ export class UserService {
 
     userNew.password = await this.cryptoService.hash(userRegister.password);
     userNew.email = userRegister.email.toLowerCase();
+    userNew.lastName = userRegister.lastName;
+    userNew.firstName = userRegister.firstName;
 
     userNew = await this.userRepository.save(userNew);
 
