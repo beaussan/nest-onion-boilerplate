@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RolesRepository } from './roles.repository';
 import { USER_ROLE, ADMIN_ROLE } from './roles.constants';
 import { RolesDto } from './roles.dto';
-import Optional from 'typescript-optional';
+import { Optional } from 'typescript-optional';
 
 @Injectable()
 export class RolesService {
@@ -17,7 +17,7 @@ export class RolesService {
 
   async init(): Promise<void> {
     for (const role in [USER_ROLE, ADMIN_ROLE]) {
-      if ((await this.rolesRepository.findRoleByName(role)).isEmpty) {
+      if ((await this.rolesRepository.findRoleByName(role)).isEmpty()) {
         const roleDb = new Role();
         roleDb.name = role;
         await this.rolesRepository.save(roleDb);

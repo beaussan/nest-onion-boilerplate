@@ -10,12 +10,13 @@ import { RolesGuard } from './guards/roles.guard';
 import { ConfigService } from './modules/core/config/config.service';
 import { ConfigModule } from './modules/core/config/config.module';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
   config();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Set logger
   app.useLogger(app.get(LoggerService));

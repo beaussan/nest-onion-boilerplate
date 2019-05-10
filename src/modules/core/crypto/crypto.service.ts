@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import * as argon2 from 'argon2';
+import { argon2id, hash, verify } from 'argon2';
 
 @Injectable()
 export class CryptoService {
-  private readonly type = argon2.argon2id;
+  private readonly type = argon2id;
 
   constructor() {}
 
@@ -13,8 +13,8 @@ export class CryptoService {
    * @param {string} hash
    * @returns {Promise<boolean>}
    */
-  public async compare(plain: string, hash: string): Promise<boolean> {
-    return await argon2.verify(hash, plain);
+  public async compare(plain: string, hashString: string): Promise<boolean> {
+    return await verify(hashString, plain);
   }
 
   /**
@@ -23,6 +23,6 @@ export class CryptoService {
    * @returns {Promise<string>}
    */
   public async hash(plain: string): Promise<string> {
-    return await argon2.hash(plain, { type: this.type });
+    return await hash(plain, { type: this.type });
   }
 }

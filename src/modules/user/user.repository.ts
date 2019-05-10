@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
-import Optional from 'typescript-optional';
+import { Optional } from 'typescript-optional';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

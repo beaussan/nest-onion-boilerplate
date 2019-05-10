@@ -1,4 +1,5 @@
 import {
+  CallHandler,
   ExecutionContext,
   HttpException,
   Injectable,
@@ -12,13 +13,9 @@ import { LoggerService } from './logger.service';
 export class LoggerExceptionInterceptor implements NestInterceptor {
   constructor(private loggerService: LoggerService) {}
 
-  intercept(
-    context: ExecutionContext,
-    call$: Observable<any>,
-  ): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
-
-    return call$.pipe(
+    return next.handle().pipe(
       catchError(exception => {
         if (exception instanceof HttpException) {
           // If 500, log as error

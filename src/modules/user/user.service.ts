@@ -14,7 +14,7 @@ import {
   UserDtoUpdateInfo,
   UserDtoUpdatePassword,
 } from './user.dto';
-import Optional from 'typescript-optional';
+import { Optional } from 'typescript-optional';
 import { CryptoService } from '../core/crypto/crypto.service';
 
 @Injectable()
