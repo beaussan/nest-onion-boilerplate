@@ -1,4 +1,9 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerModule } from './modules/core/logger/logger.module';
@@ -12,6 +17,8 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { RolesModule } from './modules/roles/roles.module';
 import { AuthModule } from './modules/core/auth/auth.module';
+import { PromModule } from './modules/core/metrics/metrics.module';
+import { InboundMiddleware } from './modules/core/metrics/middleware/inbound.middleware';
 // needle-module-import
 
 @Module({
@@ -30,6 +37,11 @@ import { AuthModule } from './modules/core/auth/auth.module';
       }),
       inject: [ConfigService],
     }),
+    PromModule.forRoot({
+      defaultLabels: {
+        app: 'v1.0.0',
+      },
+    }),
     LoggerModule, // Global
     RouterModule.forRoutes(appRoutes),
     AuthModule,
@@ -40,4 +52,8 @@ import { AuthModule } from './modules/core/auth/auth.module';
   controllers: [AppController],
   providers: [AppService, RolesGuard, ClassSerializerInterceptor],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {
+    consumer.apply(InboundMiddleware).forRoutes('*');
+  }
+}

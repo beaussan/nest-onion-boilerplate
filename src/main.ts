@@ -11,6 +11,9 @@ import { ConfigService } from './modules/core/config/config.service';
 import { ConfigModule } from './modules/core/config/config.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ClassSerializerInterceptor } from '@nestjs/common';
+import { InboundMiddleware } from './modules/core/metrics/middleware/inbound.middleware';
+import { PromModule } from './modules/core/metrics/metrics.module';
+import { MetricsInterceptor } from './modules/core/metrics/interceptors/metrics.interceptor';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -29,7 +32,9 @@ async function bootstrap() {
     .select(LoggerModule)
     .get(LoggerExceptionInterceptor);
   const classSerializer = app.select(AppModule).get(ClassSerializerInterceptor);
+  const metricsInterceptor = app.select(AppModule).get(MetricsInterceptor);
   app.useGlobalInterceptors(
+    metricsInterceptor,
     loggerInterceptor, // Log exceptions
     classSerializer,
   );

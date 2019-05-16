@@ -38,12 +38,14 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pg": "^7.10.0",
+    "prom-client": "^11.3.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.2",
     "swagger-ui-express": "^4.0.2",
     "typeorm": "^0.2.17",
     "typescript": "^3.4.5",
     "typescript-optional": "^2.0.1",
+    "url-value-parser": "^2.0.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
