@@ -9,8 +9,8 @@ import { LoggerService } from './modules/core/logger/logger.service';
 import { RolesGuard } from './guards/roles.guard';
 import { ConfigService } from './modules/core/config/config.service';
 import { ConfigModule } from './modules/core/config/config.module';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -28,9 +28,10 @@ async function bootstrap() {
   const loggerInterceptor = app
     .select(LoggerModule)
     .get(LoggerExceptionInterceptor);
+  const classSerializer = app.select(AppModule).get(ClassSerializerInterceptor);
   app.useGlobalInterceptors(
     loggerInterceptor, // Log exceptions
-    new TransformInterceptor(),
+    classSerializer,
   );
 
   const connfigService = app.select(ConfigModule).get(ConfigService);

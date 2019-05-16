@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerModule } from './modules/core/logger/logger.module';
@@ -38,6 +38,6 @@ import { AuthModule } from './modules/core/auth/auth.module';
     // needle-module-includes
   ],
   controllers: [AppController],
-  providers: [AppService, RolesGuard],
+  providers: [AppService, RolesGuard, ClassSerializerInterceptor],
 })
 export class AppModule {}
