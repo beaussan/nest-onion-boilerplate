@@ -33,7 +33,6 @@ import { CurrentUser } from '../../decorators/currentUser.decorator';
 @ApiUseTags('User')
 @Controller()
 @ApiBearerAuth()
-@UseGuards(AuthGuard())
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

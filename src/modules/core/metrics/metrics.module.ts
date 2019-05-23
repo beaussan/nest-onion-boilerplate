@@ -34,18 +34,10 @@ export class PromModule {
     const moduleForRoot: Required<DynamicModule> = {
       module: PromModule,
       imports: [PromCoreModule.forRoot(options)],
-      controllers: [],
+      controllers: [PromController],
       exports: [],
       providers: [InboundMiddleware, MetricsInterceptor],
     };
-
-    // default push default controller
-    if (withDefaultController) {
-      moduleForRoot.controllers = [
-        ...moduleForRoot.controllers,
-        PromController,
-      ];
-    }
 
     // if want to use the http counter
     /*

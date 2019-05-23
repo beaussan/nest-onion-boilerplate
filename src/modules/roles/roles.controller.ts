@@ -14,7 +14,6 @@ import { AuthGuard } from '@nestjs/passport';
 @ApiUseTags('Role')
 @Controller()
 @ApiBearerAuth()
-@UseGuards(AuthGuard())
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

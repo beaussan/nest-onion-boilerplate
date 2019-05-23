@@ -6,7 +6,7 @@ import { User } from '../../user/user.entity';
 import { UserService } from '../../user/user.service';
 import { UserDtoRegister } from '../../user/user.dto';
 import { CurrentUser } from '../../../decorators/currentUser.decorator';
-import { AuthGuard } from '@nestjs/passport';
+import { Public } from '../../../decorators/public.decorator';
 
 @ApiUseTags('Auth')
 @Controller()
@@ -16,6 +16,7 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
+  @Public()
   @Post('login')
   async signIn(@Body() userLogin: LoginDto): Promise<TokenDto> {
     const token = await this.authService.signIn(
@@ -25,6 +26,7 @@ export class AuthController {
     return { token };
   }
 
+  @Public()
   @Post('register')
   async registerUser(@Body() userRegister: UserDtoRegister): Promise<User> {
     return this.userService.saveNew(userRegister);
@@ -32,7 +34,6 @@ export class AuthController {
 
   @Get('me')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard())
   async getMe(@CurrentUser() loggedUser: User) {
     return loggedUser;
   }

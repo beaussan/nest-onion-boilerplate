@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { config } from 'dotenv';
 import { AppModule } from './app.module';
@@ -14,6 +14,7 @@ import { ClassSerializerInterceptor } from '@nestjs/common';
 import { InboundMiddleware } from './modules/core/metrics/middleware/inbound.middleware';
 import { PromModule } from './modules/core/metrics/metrics.module';
 import { MetricsInterceptor } from './modules/core/metrics/interceptors/metrics.interceptor';
+import { AuthGuard } from './modules/core/auth/auth.guard';
 
 async function bootstrap() {
   // Use .env to configure environment variables (process.env)
@@ -42,8 +43,9 @@ async function bootstrap() {
   const connfigService = app.select(ConfigModule).get(ConfigService);
 
   // Guards
+  const reflector = app.get(Reflector);
   const rolesGuard = app.select(AppModule).get(RolesGuard);
-  app.useGlobalGuards(rolesGuard);
+  app.useGlobalGuards(new AuthGuard(reflector), rolesGuard);
 
   // Validators
   app.useGlobalPipes(
