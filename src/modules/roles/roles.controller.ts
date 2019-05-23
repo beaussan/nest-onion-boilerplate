@@ -1,28 +1,20 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
   NotFoundException,
   Param,
   ParseIntPipe,
-  Post,
-  Put,
-  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Role } from './roles.entity';
 import { RolesService } from './roles.service';
-import {
-  ApiBearerAuth,
-  ApiImplicitParam,
-  ApiResponse,
-  ApiUseTags,
-} from '@nestjs/swagger';
-import { RolesDto } from './roles.dto';
+import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiUseTags('Role')
 @Controller()
-// @ApiBearerAuth()
+@ApiBearerAuth()
+@UseGuards(AuthGuard())
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

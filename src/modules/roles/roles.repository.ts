@@ -1,7 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Role } from './roles.entity';
 import { Optional } from 'typescript-optional';
-import { ADMIN_ROLE, USER_ROLE } from './roles.constants';
 
 @EntityRepository(Role)
 export class RolesRepository extends Repository<Role> {

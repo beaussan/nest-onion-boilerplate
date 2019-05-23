@@ -5,7 +5,9 @@ import { Optional } from 'typescript-optional';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   async findOneById(id: number): Promise<Optional<User>> {
-    return Optional.ofNullable(await this.findOne(id, {}));
+    return Optional.ofNullable(
+      await this.findOne(id, { relations: ['roles'] }),
+    );
   }
 
   async hasUserWithMatchingEmail(email: string): Promise<boolean> {

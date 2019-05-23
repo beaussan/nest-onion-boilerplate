@@ -16,6 +16,10 @@ import {
 } from './user.dto';
 import { Optional } from 'typescript-optional';
 import { CryptoService } from '../core/crypto/crypto.service';
+import { Role } from '../roles/roles.entity';
+import { Roles } from '../../decorators/roles.decorator';
+import { USER_ROLE } from '../roles/roles.constants';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class UserService {
@@ -23,6 +27,7 @@ export class UserService {
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
     private readonly cryptoService: CryptoService,
+    private readonly rolesSercie: RolesService,
   ) {}
 
   async getAll(): Promise<User[]> {
@@ -52,10 +57,13 @@ export class UserService {
 
     let userNew = new User();
 
+    const userRole = await this.rolesSercie.getUserRole();
+
     userNew.password = await this.cryptoService.hash(userRegister.password);
     userNew.email = userRegister.email.toLowerCase();
     userNew.lastName = userRegister.lastName;
     userNew.firstName = userRegister.firstName;
+    userNew.roles = [userRole];
 
     userNew = await this.userRepository.save(userNew);
 

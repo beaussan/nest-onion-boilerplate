@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
@@ -27,6 +28,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../../decorators/roles.decorator';
 import { ADMIN_ROLE } from '../roles/roles.constants';
+import { CurrentUser } from '../../decorators/currentUser.decorator';
 
 @ApiUseTags('User')
 @Controller()
@@ -65,7 +67,13 @@ export class UserController {
     type: User,
   })
   @ApiResponse({ status: 404, description: 'Not found.' })
-  async findOne(@Param('id', new ParseIntPipe()) id: number): Promise<User> {
+  async findOne(
+    @Param('id', new ParseIntPipe()) id: number,
+    @CurrentUser() user: User,
+  ): Promise<User> {
+    if (!user.isAdmin() && user.id !== id) {
+      throw new ForbiddenException();
+    }
     return (await this.userService.getOneById(id)).orElseThrow(
       () => new NotFoundException(),
     );
@@ -81,7 +89,11 @@ export class UserController {
   async updateOne(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() userDto: UserDtoUpdateInfo,
+    @CurrentUser() user: User,
   ): Promise<User> {
+    if (!user.isAdmin() && user.id !== id) {
+      throw new ForbiddenException();
+    }
     return this.userService.update(id, userDto);
   }
 
@@ -95,7 +107,11 @@ export class UserController {
   async updateOnePassword(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() userDto: UserDtoUpdatePassword,
+    @CurrentUser() user: User,
   ): Promise<User> {
+    if (!user.isAdmin() && user.id !== id) {
+      throw new ForbiddenException();
+    }
     return this.userService.updatePassword(id, userDto);
   }
 
@@ -105,7 +121,13 @@ export class UserController {
     description: 'The User with the matching id was deleted',
   })
   @ApiResponse({ status: 404, description: 'Not found.' })
-  async deleteOne(@Param('id', new ParseIntPipe()) id: number): Promise<void> {
+  async deleteOne(
+    @Param('id', new ParseIntPipe()) id: number,
+    @CurrentUser() user: User,
+  ): Promise<void> {
+    if (!user.isAdmin() && user.id !== id) {
+      throw new ForbiddenException();
+    }
     await this.userService.deleteById(id);
   }
 }
