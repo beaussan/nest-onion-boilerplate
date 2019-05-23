@@ -31,7 +31,7 @@ export class PromModule {
     const { withDefaultController, ...promOptions } = options;
 
     // @ts-ignore
-    const moduleForRoot: DynamicModule = {
+    const moduleForRoot: Required<DynamicModule> = {
       module: PromModule,
       imports: [PromCoreModule.forRoot(options)],
       controllers: [],
@@ -40,7 +40,7 @@ export class PromModule {
     };
 
     // default push default controller
-    if (withDefaultController !== false) {
+    if (withDefaultController) {
       moduleForRoot.controllers = [
         ...moduleForRoot.controllers,
         PromController,

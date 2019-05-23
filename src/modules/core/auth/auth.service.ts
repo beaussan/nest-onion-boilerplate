@@ -25,8 +25,8 @@ export class AuthService {
   }
 
   async validateUser(payload: JwtPayload): Promise<any> {
-    return (await this.usersService.getOneById(payload.idUser)).orElse(
-      undefined,
+    return (await this.usersService.getOneById(payload.idUser)).orElseThrow(
+      () => new UnauthorizedException(),
     );
   }
 }
