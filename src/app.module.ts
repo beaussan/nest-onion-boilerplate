@@ -5,7 +5,6 @@ import {
   NestModule,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { LoggerModule } from './modules/core/logger/logger.module';
 import { RouterModule } from 'nest-router';
 import { appRoutes } from './app.routes';
@@ -50,7 +49,7 @@ import { InboundMiddleware } from './modules/core/metrics/middleware/inbound.mid
     // needle-module-includes
   ],
   controllers: [AppController],
-  providers: [AppService, RolesGuard, ClassSerializerInterceptor],
+  providers: [RolesGuard, ClassSerializerInterceptor],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {

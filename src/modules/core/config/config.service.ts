@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as Joi from 'joi';
+import * as Joi from '@hapi/joi';
 import { parse } from 'dotenv';
 import * as fs from 'fs';
 
