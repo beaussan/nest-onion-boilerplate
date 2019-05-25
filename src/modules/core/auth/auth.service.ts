@@ -17,7 +17,7 @@ export class AuthService {
     const userFound = (await this.usersService.getOnWithEmail(
       email,
     )).orElseThrow(() => new UnauthorizedException());
-    if (!this.usersService.doPasswordMatch(userFound, password)) {
+    if (!(await this.usersService.doPasswordMatch(userFound, password))) {
       throw new UnauthorizedException();
     }
     const user: JwtPayload = { idUser: userFound.id };
