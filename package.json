@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate": "plop --plopfile internals/generator/index.js",
+    "generate": "hygen",
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
@@ -56,11 +56,10 @@
     "@types/node": "^12.0.0",
     "@types/supertest": "^2.0.5",
     "husky": "^2.2.0",
+    "hygen": "^4.0.9",
     "jest": "^24.8.0",
     "lint-staged": "^8.1.6",
-    "node-plop": "^0.18.0",
     "nodemon": "^1.19.0",
-    "plop": "^2.3.0",
     "prettier": "^1.17.0",
     "rimraf": "^2.6.3",
     "supertest": "^4.0.2",

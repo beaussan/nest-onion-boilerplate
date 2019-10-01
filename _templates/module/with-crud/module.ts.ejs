@@ -1,0 +1,24 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.module.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+%>import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { <%=properName%>Controller } from './<%=kebabName%>.controller';
+import { <%=properName%>Service } from './<%=kebabName%>.service';
+import { <%=properName%> } from './<%=kebabName%>.entity';
+import { <%=properName%>Repository } from './<%=kebabName%>.repository';
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([<%=properName%>, <%=properName%>Repository]),
+  ],
+  controllers: [<%=properName%>Controller],
+  providers: [<%=properName%>Service],
+  exports: [<%=properName%>Service],
+})
+export class <%=properName%>Module {}
+
+

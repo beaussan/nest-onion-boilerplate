@@ -1,4 +1,11 @@
-import {
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.controller.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+camelCase = h.changeCase.camel(name);
+%>import {
   Body,
   Controller,
   Delete,
@@ -10,80 +17,80 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { {{ properCase name }} } from './{{ kebabCase name }}.entity';
-import { {{ properCase name }}Service } from './{{ kebabCase name }}.service';
+import { <%= properName %> } from './<%= kebabName %>.entity';
+import { <%= properName %>Service } from './<%= kebabName %>.service';
 import {
   ApiBearerAuth,
   ApiImplicitParam,
   ApiResponse,
   ApiUseTags,
 } from '@nestjs/swagger';
-import { {{ properCase name }}Dto } from './{{ kebabCase name }}.dto';
+import { <%= properName %>Dto } from './<%= kebabName %>.dto';
 
 
 @ApiUseTags('{{ sentenceCase name }}')
 @Controller()
 // @ApiBearerAuth()
-export class {{ properCase name }}Controller {
- constructor(private readonly {{ camelCase name }}Service: {{ properCase name }}Service) {}
-  
+export class <%= properName %>Controller {
+  constructor(private readonly <%= camelCase %>Service: <%= properName %>Service) {}
+
   @Get()
   @ApiResponse({
     status: 200,
     description: 'Get a list of all {{ sentenceCase name }}.',
-    type: {{ properCase name }},
+    type: <%= properName %>,
     isArray: true,
   })
-  getAll(): Promise<{{ properCase name }}[]> {
-    return this.{{ camelCase name }}Service.getAll();
+  getAll(): Promise<<%= properName %>[]> {
+    return this.<%= camelCase %>Service.getAll();
   }
-  
+
   @Post()
   @ApiResponse({
     status: 201,
     description: 'The {{ sentenceCase name }} has been created.',
-    type: {{ properCase name }},
+    type: <%= properName %>,
   })
-  saveNew(@Body() {{ camelCase name }}Dto: {{ properCase name }}Dto): Promise<{{ properCase name }}> {
-    return this.{{ camelCase name }}Service.saveNew({{ camelCase name }}Dto);
+  saveNew(@Body() <%= camelCase %>Dto: <%= properName %>Dto): Promise<<%= properName %>> {
+    return this.<%= camelCase %>Service.saveNew(<%= camelCase %>Dto);
   }
 
   @Get(':id')
   @ApiResponse({
     status: 200,
     description: 'The {{ sentenceCase name }} with the matching id',
-    type: {{ properCase name }},
+    type: <%= properName %>,
   })
   @ApiResponse({ status: 404, description: 'Not found.' })
   async findOne(
     @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<{{ properCase name }}> {
-    return (await this.{{ camelCase name }}Service.getOneById(id)).orElseThrow(
+  ): Promise<<%= properName %>> {
+    return (await this.<%= camelCase %>Service.getOneById(id)).orElseThrow(
       () => new NotFoundException(),
     );
   }
-  
+
   @Put(':id')
   @ApiResponse({
     status: 200,
     description: 'The updated {{ sentenceCase name }} with the matching id',
-    type: {{ properCase name }},
+    type: <%= properName %>,
   })
   @ApiResponse({ status: 404, description: 'Not found.' })
   async updateOne(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() {{ camelCase name }}Dto: {{ properCase name }}Dto,
-  ): Promise<{{ properCase name }}> {
-    return this.{{ camelCase name }}Service.update(id, {{ camelCase name }}Dto);
+    @Body() <%= camelCase %>Dto: <%= properName %>Dto,
+  ): Promise<<%= properName %>> {
+    return this.<%= camelCase %>Service.update(id, <%= camelCase %>Dto);
   }
-  
+
   @Delete(':id')
   @ApiResponse({
-    status: 200,
+  status: 200,
     description: 'The {{ sentenceCase name }} with the matching id was deleted',
   })
   @ApiResponse({ status: 404, description: 'Not found.' })
   async deleteOne(@Param('id', new ParseIntPipe()) id: number): Promise<void> {
-    await this.{{ camelCase name }}Service.deleteById(id);
+    await this.<%= camelCase %>Service.deleteById(id);
   }
 }

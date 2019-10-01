@@ -1,0 +1,17 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.module.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+%>import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+  exports: [],
+})
+export class <%=properName%>Module {}
+
+

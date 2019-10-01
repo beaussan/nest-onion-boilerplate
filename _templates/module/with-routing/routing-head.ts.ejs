@@ -1,0 +1,10 @@
+---
+to: src/app.routes.ts
+after: import { Routes } from 'nest-router';
+inject: true
+skip_if: modules/<%= h.changeCase.param(name) %>
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+%>import { <%= properName %>Module } from './modules/<%= kebabName %>/<%= kebabName %>.module';

@@ -1,0 +1,16 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.entity.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+camelCase = h.changeCase.camel(name);
+%>import { DbAuditModel } from '../../utils/dbmodel.model';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { ApiModelProperty } from '@nestjs/swagger';
+
+
+@Entity()
+export class <%= properName %> extends DbAuditModel {
+
+}

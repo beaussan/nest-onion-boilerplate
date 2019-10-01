@@ -1,0 +1,62 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.service.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+camelCase = h.changeCase.camel(name);
+%>import { <%= properName %> } from './<%= kebabName %>.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { <%= properName %>Repository } from './<%= kebabName %>.repository';
+// import {  } from './<%= kebabName %>.constants';
+import { <%= properName %>Dto } from './<%= kebabName %>.dto';
+import { Optional } from 'typescript-optional';
+
+
+@Injectable()
+export class <%= properName %>Service {
+
+  constructor(
+    @InjectRepository(<%= properName %>Repository)
+    private readonly <%= camelCase %>Repository: <%= properName %>Repository,
+  ) { }
+
+  async getAll(): Promise<<%= properName %>[]> {
+    return this.<%= camelCase %>Repository.find({});
+  }
+
+  async getOneById(id: number): Promise<Optional<<%= properName %>>> {
+    return this.<%= camelCase %>Repository.findOneById(id);
+  }
+
+  async saveNew(body: <%= properName %>Dto): Promise<<%= properName %>> {
+    let <%= camelCase %>New = new <%= properName %>();
+
+    // Complete with the mappings
+
+    <%= camelCase %>New = await this.<%= camelCase %>Repository.save(<%= camelCase %>New);
+
+    return <%= camelCase %>New;
+  }
+
+  async update(id: number, body: <%= properName %>Dto): Promise<<%= properName %>> {
+    let <%= camelCase %>Found = (await this.<%= camelCase %>Repository.findOneById(id)).orElseThrow(
+    () => new NotFoundException(),
+    );
+
+    // Complete with the mappings
+
+    <%= camelCase %>Found = await this.<%= camelCase %>Repository.save(<%= camelCase %>Found);
+
+    return <%= camelCase %>Found;
+  }
+
+  async deleteById(id: number): Promise<void> {
+    const <%= camelCase %>Found = (await this.<%= camelCase %>Repository.findOneById(
+      id,
+    )).orElseThrow(() => new NotFoundException());
+    await this.<%= camelCase %>Repository.remove(<%= camelCase %>Found);
+  }
+}
+
