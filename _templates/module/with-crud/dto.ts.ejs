@@ -1,0 +1,15 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.dto.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+camelCase = h.changeCase.camel(name);
+%>import { IsArray, IsOptional, IsString, Min, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiModelProperty } from '@nestjs/swagger';
+
+export class <%= properName %>Dto {
+
+}
+

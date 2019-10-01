@@ -1,0 +1,13 @@
+---
+to: src/app.routes.ts
+after: export const appRoutes.*
+inject: true
+skip_if: /<%= h.changeCase.param(name) %>
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+%>  {
+    path: '/<%= kebabName %>s',
+    module: <%= properName %>Module,
+  },

@@ -1,0 +1,19 @@
+---
+to: src/modules/<%=h.changeCase.param(name)%>/<%=h.changeCase.param(name)%>.repository.ts
+---
+<%
+properName = h.changeCase.pascal(name);
+kebabName = h.changeCase.param(name);
+camelCase = h.changeCase.camel(name);
+%>import { EntityRepository, Repository } from 'typeorm';
+import { <%= properName %> } from './<%= kebabName %>.entity';
+import { Optional } from 'typescript-optional';
+
+@EntityRepository(<%= properName %>)
+export class <%= properName %>Repository extends Repository<<%= properName %>> {
+  async findOneById(id: number): Promise<Optional<<%= properName %>>> {
+    return Optional.ofNullable(
+      await this.findOne(id, {}),
+    );
+  }
+}
