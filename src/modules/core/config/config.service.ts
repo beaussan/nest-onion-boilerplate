@@ -1,7 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as Joi from '@hapi/joi';
 import { config as parseConfig } from 'dotenv';
-import * as fs from 'fs';
 
 interface EnvConfig {
   [key: string]: any;
@@ -29,8 +28,6 @@ export class ConfigService {
         .valid('development', 'production', 'test', 'provision')
         .default('development'),
       API_PORT: Joi.number().default(3000),
-      API_HOST: Joi.string().default('localhost'),
-      API_PROTOCOL: Joi.string().default('http'),
       LOG_LEVEL: Joi.string()
         .valid('error', 'warning', 'info', 'debug', 'silly')
         .default('debug'),
@@ -50,6 +47,10 @@ export class ConfigService {
       throw new Error(`Config validation error: ${error.message}`);
     }
     return validatedEnvConfig;
+  }
+
+  get nodeEnv(): string {
+    return this.envConfig.NODE_ENV;
   }
 
   get databaseUrl(): string {
