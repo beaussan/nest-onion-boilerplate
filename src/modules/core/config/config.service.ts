@@ -26,26 +26,26 @@ export class ConfigService {
   private validateInput(envConfig: EnvConfig): EnvConfig {
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       NODE_ENV: Joi.string()
-        .valid(['development', 'production', 'test', 'provision'])
+        .valid('development', 'production', 'test', 'provision')
         .default('development'),
       API_PORT: Joi.number().default(3000),
       API_HOST: Joi.string().default('localhost'),
       API_PROTOCOL: Joi.string().default('http'),
       LOG_LEVEL: Joi.string()
-        .valid(['error', 'warning', 'info', 'debug', 'silly'])
+        .valid('error', 'warning', 'info', 'debug', 'silly')
         .default('debug'),
       DATABASE_URL: Joi.string().required(),
       JWT_SECRET: Joi.string().required(),
       LOG_SQL_REQUEST: Joi.boolean().default(false),
     });
 
-    const { error, value: validatedEnvConfig } = Joi.validate(
+    const { error, value: validatedEnvConfig } = envVarsSchema.validate(
       envConfig,
-      envVarsSchema,
       {
         stripUnknown: true,
       },
     );
+
     if (error) {
       throw new Error(`Config validation error: ${error.message}`);
     }
