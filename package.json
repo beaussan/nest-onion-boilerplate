@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --list-different \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
@@ -14,6 +15,7 @@
     "start:hmr": "node dist/server",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
+    "test:ci": "jest --runInBand --coverage",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",

@@ -1,0 +1,166 @@
+version: 2
+jobs:
+  ##########################################################################
+  #  SHARED STEPS
+  ##########################################################################
+  build:
+    docker:
+      - image: circleci/node:dubnium-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - $CACHE_VERSION-dependencies-
+      - run: yarn global add node-gyp && yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+  lint:
+    docker:
+      - image: circleci/node:dubnium-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+      - run: yarn lint
+      - run: yarn format:check
+
+  ##########################################################################
+  #  DOCS
+  ##########################################################################
+#  server-doc-build:
+#    docker:
+#      - image: circleci/node:dubnium-browsers
+#    working_directory: ~/repo
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          key: $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+#      - run: yarn doc:build
+#      - run:
+#          name: Copy deployment artifacts to workspace
+#          command: |
+#            cp doc-server/ /tmp/server-doc -r
+#      - store_artifacts:
+#          path: /tmp/server-doc
+#      - persist_to_workspace:
+#          root: /tmp
+#          paths:
+#            - server-doc
+#  server-doc-deploy:
+#    docker:
+#      - image: circleci/node:dubnium-browsers
+#    working_directory: ~/deploy-doc-server
+#    steps:
+#      - attach_workspace:
+#          at: /tmp
+#      - run:
+#          name: Deploy app
+#          command: yarn add netlify-cli && yarn netlify deploy -d /tmp/server-doc -a $NETLIFY_TOKEN -s $NETLIFY_SITE_DOC_SERVER -p
+  ##########################################################################
+  #  BACK SPECIFIC
+  ##########################################################################
+  back-test-unit:
+    docker:
+      - image: circleci/node:dubnium-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+      - run: yarn test:ci
+      - run: curl -s https://codecov.io/bash | bash
+  back-test-e2e:
+    docker:
+      - image: circleci/node:dubnium-browsers
+      - image: circleci/postgres:9.6.5
+        environment:
+          POSTGRES_DB: psqluer
+          POSTGRES_USER: psqluer
+          POSTGRES_PASSWORD: psqlpassword
+    working_directory: ~/repo
+    environment:
+      DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psqluer
+      JWT_SECRET: NOT_SECURE_SECRET
+      API_PORT: 3000
+      API_HOST: localhost
+      API_PROTOCOL: http
+    steps:
+      - checkout
+      - restore_cache:
+          key: $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+      - run: yarn test:e2e
+
+#  docker-build-and-push:
+#    working_directory: /dockerapp
+#    docker:
+#      - image: docker:17.05.0-ce-git
+#    steps:
+#      - checkout
+#      - setup_remote_docker
+#      - run:
+#          name: Install dependencies
+#          command: |
+#            apk add --no-cache py-pip=9.0.0-r1
+#            pip install docker-compose==1.15.0
+#      - run:
+#          name: Build application Docker image
+#          command: |
+#            docker build --cache-from=app -t app .
+#      - deploy:
+#          name: Publish application to docker hub
+#          command: |
+#            docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+#            docker tag app $DOCKER_HUB_USER_ID/onion-boilerplate:$CIRCLE_BUILD_NUM
+#            docker tag app $DOCKER_HUB_USER_ID/onion-boilerplate:latest
+#            docker push $DOCKER_HUB_USER_ID/onion-boilerplate:$CIRCLE_BUILD_NUM
+#            docker push $DOCKER_HUB_USER_ID/onion-boilerplate:latest
+#  back-deploy-heroku:
+#    docker:
+#      - image: buildpack-deps:trusty
+#    steps:
+#      - checkout
+#      - run:
+#          name: Heroku Deploy
+#          command: |
+#            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git develop:master
+#      - run:
+#          name: Smoke Test
+#          command: |
+#            # Heroku deploy command will pass even if application crashes. Simple smoke test to make sure app is up.
+#            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$HEROKU_APP_NAME.herokuapp.com/`
+#            if [ "$HTTPCODE" -ne 200 ];then
+#              echo "heroku app not responding, failing deploy"
+#              exit 1
+#            fi
+workflows:
+  version: 2
+  build-test-and-lint:
+    jobs:
+      - build
+      - back-test-unit:
+          requires:
+            - build
+      - back-test-e2e:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
+#      - server-doc-build:
+#          requires:
+#            - build
+#            - lint
+#            - back-test-e2e
+#            - back-test-unit
+#      - server-doc-deploy:
+#          requires:
+#            - server-doc-build
+#          filters:
+#            branches:
+#              only: develop
