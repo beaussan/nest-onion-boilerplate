@@ -1,51 +1,77 @@
+<h1 align="center">Welcome to Nest Onion Boilerplate 👋</h1>
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+    <a href="https://forthebadge.com/">
+        <img alt="build with love" src="https://forthebadge.com/images/badges/built-with-love.svg">
+    </a>
+    <a href="https://forthebadge.com/">
+        <img alt="build with love" src="https://forthebadge.com/images/badges/made-with-javascript.svg">
+    </a>
+</p>
+<p align="center">
+    <a href="https://greenkeeper.io/">
+        <img src="https://badges.greenkeeper.io/beaussart/nest-onion-boilerplate.svg" alt="Greenkeeper badge" />
+    </a>
+    <a href="https://circleci.com/gh/beaussart/nest-onion-boilerplate/tree/master">
+        <img src="https://img.shields.io/circleci/build/github/beaussart/nest-onion-boilerplate/master?style=flat-square" alt="CircleCI" />
+        </a>
+    <a href="https://codecov.io/gh/beaussart/nest-onion-boilerplate">
+      <img src="https://img.shields.io/codecov/c/github/beaussart/nest-onion-boilerplate?style=flat-square" />
+    </a>
+    <a href="https://gitmoji.carloscuesta.me">
+        <img src="https://img.shields.io/badge/commit%20convention-gitmoji-green.svg?style=flat-square"
+             alt="Gitmoji">
+    </a>
+    <a href="#badge">
+        <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
+    </a>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?style=flat-square" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" />
+  </a>
+  <a href="https://twitter.com/Beaussart_n" target="_blank">
+    <img alt="Twitter: Beaussart_n" src="https://img.shields.io/twitter/follow/Beaussart_n.svg?style=social" />
+  </a>
 </p>
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor) [![Greenkeeper badge](https://badges.greenkeeper.io/beaussart/nest-onion-boilerplate.svg)](https://greenkeeper.io/)-->
+> A starter kit for a production ready Nestjs application
 
-## Description
+## What's in it
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| Feat                | Techno                                 | Status      |
+| ------------------- | -------------------------------------- | ----------- |
+| Database            | Typeorm (pluged for now on postgresql) | Done        |
+| Env config          | Dotenv + Joi for validation            | Done        |
+| Docker              | dockerfile                             | Done        |
+| Swagger             |                                        | Done        |
+| Testing             | Jest + supertest                       | In progress |
+| Auth                | Nest Passport + jwt                    | In progress |
+| Metrics             | Prometheus                             | In progress |
+| Logger              | Winston                                | In progress |
+| Code generator      | Hygen                                  | In progress |
+| S3 / GCP storage    |                                        | To do       |
+| Mailing             |                                        | To do       |
+| Search with algolia |                                        | To do       |
+| Search with Elastic |                                        | To do       |
+| Error Reporting     | Sentry                                 | To do       |
+
+And any features requested by future users.
 
 ## Installation
 
 ```bash
 $ npm install
+# Or
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
-
-# incremental rebuild (webpack)
-$ npm run webpack
-$ npm run start:hmr
+npm run start:dev
 
 # production mode
 $ npm run start:prod
@@ -64,16 +90,35 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Lints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+$ npm run format:check
 
-## Stay in touch
+$ npm run lint
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Generate
 
-## License
+```bash
+$ npm run generate module with-crud --name myModule
+```
 
-  Nest is [MIT licensed](LICENSE).
+## Author
+
+👤 **Nicolas Beaussart <nic.beaussart@gmail.com>**
+
+- Twitter: [@Beaussart_n](https://twitter.com/Beaussart_n)
+- Github: [@beaussart](https://github.com/beaussart)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/beaussart/nest-onion-boilerplate/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+---
+
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

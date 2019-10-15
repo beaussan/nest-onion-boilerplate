@@ -1,7 +1,7 @@
 {
   "name": "nest-onion-boilerplate",
   "version": "0.0.1",
-  "description": "a boilerplate for my projects",
+  "description": "A starter kit for a production ready Nestjs application",
   "author": "Nicolas Beaussart <nic.beaussart@gmail.com>",
   "license": "MIT",
   "scripts": {
