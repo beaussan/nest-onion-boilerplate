@@ -24,5 +24,5 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-  })
+  });
 });
