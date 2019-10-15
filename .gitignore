@@ -239,3 +239,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/code,node,linux,windows,intellij,sublimetext
 
 .env
+dist/
