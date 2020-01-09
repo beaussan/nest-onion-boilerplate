@@ -23,7 +23,7 @@
     "generate": "hygen"
   },
   "dependencies": {
-    "@hapi/joi": "^16.1.5",
+    "@hapi/joi": "^17.0.2",
     "@nestjs/common": "^6.1.1",
     "@nestjs/core": "^6.1.1",
     "@nestjs/jwt": "^6.0.0",
