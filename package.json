@@ -31,7 +31,7 @@
     "@nestjs/platform-express": "^6.1.1",
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "^6.1.0",
-    "argon2": "0.25.1",
+    "argon2": "0.26.1",
     "class-sanitizer": "^0.0.5",
     "class-transformer": "^0.2.2",
     "class-validator": "^0.10.1",
