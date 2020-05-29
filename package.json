@@ -29,7 +29,7 @@
     "@nestjs/jwt": "^6.0.0",
     "@nestjs/passport": "^6.0.0",
     "@nestjs/platform-express": "^6.1.1",
-    "@nestjs/swagger": "^3.0.2",
+    "@nestjs/swagger": "^4.5.9",
     "@nestjs/typeorm": "^6.1.0",
     "argon2": "0.25.1",
     "class-sanitizer": "^0.0.5",
